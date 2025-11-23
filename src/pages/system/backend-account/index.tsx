@@ -22,26 +22,30 @@ export default function BackendAccount() {
   // });
 
   const columns: ProColumns<BackendAccountItem>[] = [
-    { title: '管理员名称', dataIndex: 'name' },
+    { title: '帳號', dataIndex: 'username' },
+    { title: '名稱', dataIndex: 'displayName' },
     {
       title: '是否可用',
-      dataIndex: 'enable',
-      valueType: 'select',
-      valueEnum: {
-        true: { text: '是', status: 'Processing' },
-        false: { text: '否', status: 'Default' },
+      dataIndex: 'isActive',
+      render: (_, record) => {
+        const isActive = record.isActive;
+        return isActive ? (
+          <span style={{ color: '#52c41a' }}>✓ 是</span>
+        ) : (
+          <span style={{ color: '#ff4d4f' }}>✗ 否</span>
+        );
       },
       search: false,
     },
     {
-      title: '更新时间',
-      dataIndex: 'updateTime',
+      title: '最後登入時間',
+      dataIndex: 'lastLoginTime',
       valueType: 'dateTime',
       search: false,
       editable: false,
     },
     {
-      title: '创建时间',
+      title: '新增時間',
       dataIndex: 'createTime',
       valueType: 'dateTime',
       search: false,

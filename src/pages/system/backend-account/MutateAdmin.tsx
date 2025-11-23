@@ -33,7 +33,7 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
       finish?.();
     },
     onError: () => {
-      message.error(`${titlePrefix}失败！`);
+      message.error(`${titlePrefix}失敗！`);
     },
   });
 
@@ -56,18 +56,26 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
   return (
     <Modal
       open={!!initVal}
-      title={`${titlePrefix}管理员`}
+      title={`${titlePrefix}後台帳號`}
       onOk={onOk}
       onCancel={onCancel}
       confirmLoading={isPending}
     >
-      <Form form={form} {...formItemLayout} initialValues={{ isActive: false }}>
+      <Form form={form} {...formItemLayout} initialValues={{ isActive: true }}>
         <Form.Item
-          label="管理员名称"
-          name="name"
-          rules={[{ required: true, message: '请输入管理员名称！' }]}
+          label="帳號"
+          name="username"
+          rules={[{ required: true, message: '請輸入帳號！' }]}
         >
-          <Input placeholder="管理员名称" />
+          <Input placeholder="帳號" disabled={!isAdd} />
+        </Form.Item>
+
+        <Form.Item
+          label="名稱"
+          name="displayName"
+          rules={[{ required: true, message: '請輸入名稱！' }]}
+        >
+          <Input placeholder="名稱" />
         </Form.Item>
 
         {/*<Form.Item*/}
@@ -88,7 +96,7 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
 
         {isAdd ? null : (
           <Alert
-            message="编辑时输入密码表示修改管理员密码"
+            message="編輯時輸入密碼表示修改管理員密碼"
             type="info"
             showIcon
             style={{ marginBottom: 24 }}
@@ -96,35 +104,35 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
         )}
 
         <Form.Item
-          label="密码"
+          label="密碼"
           name="password"
           rules={[
-            ...(isAdd || pwd ? [{ required: true, message: '请输入密码！' }] : []),
-            { pattern: /^.{6,18}$/, message: '请输入6-18位的密码！' },
+            ...(isAdd || pwd ? [{ required: true, message: '請輸入密碼！' }] : []),
+            { pattern: /^.{6,18}$/, message: '請輸入6-18位的密碼！' },
           ]}
           hasFeedback
         >
-          <Input.Password placeholder="请输入密码" />
+          <Input.Password placeholder="請輸入密碼" />
         </Form.Item>
 
         <Form.Item
-          label="确定密码"
+          label="確定密碼"
           name="confirmPwd"
           dependencies={['password']}
           hasFeedback
           rules={[
-            ...(isAdd || pwd ? [{ required: true, message: '请再次输入密码！' }] : []),
+            ...(isAdd || pwd ? [{ required: true, message: '請再次輸入密碼！' }] : []),
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('确定密码不匹配！'));
+                return Promise.reject(new Error('確定密碼不匹配！'));
               },
             }),
           ]}
         >
-          <Input.Password placeholder="请再次输入密码" />
+          <Input.Password placeholder="請再次輸入密碼" />
         </Form.Item>
       </Form>
     </Modal>
