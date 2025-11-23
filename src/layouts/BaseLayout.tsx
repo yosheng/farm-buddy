@@ -52,7 +52,6 @@ const Layout = () => {
   const [pathname, setPathname] = useState(location.pathname || '/');
 
   useEffect(() => {
-    console.log(info);
     if (!info) navigate('/login');
   }, [info, navigate]);
 
@@ -87,7 +86,7 @@ const Layout = () => {
         // src: '',
         icon: <UserOutlined />,
         size: 'small',
-        title: info?.name?.toUpperCase(),
+        title: info?.displayName?.toUpperCase(),
         render: (_, dom) => {
           return (
             <Dropdown

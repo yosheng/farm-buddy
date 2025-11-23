@@ -1,32 +1,17 @@
-// import request from '@/utils/request';
-import { getToken } from '@/utils/store';
+import request from '@/utils/request';
 export type UserInfo = {
-  id: string;
-  name: string;
-  roleId: string;
-  enable: boolean;
-  password: string;
-  updateTime: string;
-  createTime: string;
+  id: number
+  username: string
+  displayName: string
+  isActive: boolean
+  lastLoginTime: any
+  createTime: string
 };
 
-function sleep(ms: number, bool?: boolean) {
-  return new Promise((resolve, reject) => setTimeout(bool ? resolve : reject, ms));
-}
 
 /** 获取用户信息 */
 export async function queryUserInfo() {
-  // return request<UserInfo>('/api/sys/admin/self');
-
-  const token = getToken();
-  const name = token.replace('token-', '');
-
-  return sleep(2000, true).then(() => ({
-    id: '1',
-    name: name,
-    password: 'e10adc3949ba59abbe56e057f20f883e',
-    roleId: name,
-  }));
+  return request<UserInfo>('/api/Auth/me');
 }
 
 /** 获取用户授权 */
