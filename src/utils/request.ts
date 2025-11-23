@@ -4,8 +4,8 @@ import { message, notification } from 'antd';
 import store from '@/utils/store';
 
 const instance = axios.create({
-  // baseURL: 'http://10.80.10.95:9001',
-  // timeout: 1000,
+  baseURL: import.meta.env.DEV ? '/api' : process.env.VITE_API_BASE_URL || 'http://localhost:5200',
+  timeout: 10000,
 });
 
 const CODE_MESSAGE: any = {
@@ -44,7 +44,7 @@ const errorHandler = (error: AxiosError) => {
   }
 };
 
-type Res<U = any> = { data?: U; code?: number; msg?: string };
+type Res<U = any> = { data?: U; code?: number; message?: string };
 
 export default async function <T>(
   url: string,
@@ -54,7 +54,7 @@ export default async function <T>(
   // 配置请求参数等信息
   const result = await instance<Res<T>>({
     url,
-    headers: { ...options?.headers, Authorization: `Bearer ${token}` },
+    headers: { ...options?.headers, ...(token ? { Authorization: `Bearer ${token}` } : {}) },
     ...options,
   }).catch(errorHandler);
 
@@ -62,10 +62,10 @@ export default async function <T>(
 
   if (httpStatus && httpStatus >= 200 && httpStatus < 300) {
     const model = result.data;
-    if (model.code === 200) return model.data;
+    if (model.code === 0) return model.data;
 
     // 後台請求錯誤處理
-    const msg = model.msg ?? '系統錯誤';
+    const msg = model.message ?? '系統錯誤';
     message.error(msg);
     return Promise.reject(new Error(msg, { cause: model }));
   }

@@ -18,21 +18,22 @@ export default function Login() {
   return (
     <LoginForm
       title="Farm Buddy"
-      subTitle="農小秘"
+      subTitle="農小秘讓每個農民都有專業顧問"
+      submitter={{ searchConfig: { submitText: '登入' } }}
       onFinish={async (values) => await onSubmit(values)}
     >
-      {userLoginState && <LoginMessage content="账户或密码错误(admin/farm)" />}
+      {userLoginState && <LoginMessage content="帳號或密碼錯誤" />}
       <ProFormText
         name="username"
         fieldProps={{ size: 'large', prefix: <UserOutlined /> }}
-        placeholder="用户名: admin or user"
-        rules={[{ required: true, message: '请输入用户名!' }]}
+        placeholder="帳號: admin or user"
+        rules={[{ required: true, message: '請輸入帳號!' }]}
       />
       <ProFormText.Password
         name="password"
         fieldProps={{ size: 'large', prefix: <LockOutlined /> }}
-        placeholder="密码: farm"
-        rules={[{ required: true, message: '请输入密码！' }]}
+        placeholder="密碼: farm"
+        rules={[{ required: true, message: '請輸入密碼！' }]}
       />
     </LoginForm>
   );

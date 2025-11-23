@@ -14,6 +14,7 @@ import {
   QuestionCircleFilled,
   LogoutOutlined,
   SearchOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 
 import { Input, Dropdown, theme } from 'antd';
@@ -36,7 +37,7 @@ const SearchInput = () => {
     <Input
       style={{ borderRadius: 4, marginInlineEnd: 12, backgroundColor: token.colorBgTextHover }}
       prefix={<SearchOutlined style={{ color: token.colorTextLightSolid }} />}
-      placeholder="搜索方案"
+      placeholder="搜尋專案"
       variant="borderless"
     />
   );
@@ -51,6 +52,7 @@ const Layout = () => {
   const [pathname, setPathname] = useState(location.pathname || '/');
 
   useEffect(() => {
+    console.log(info);
     if (!info) navigate('/login');
   }, [info, navigate]);
 
@@ -83,7 +85,7 @@ const Layout = () => {
       location={{ pathname }}
       avatarProps={{
         // src: '',
-        icon: '農',
+        icon: <UserOutlined />,
         size: 'small',
         title: info?.name?.toUpperCase(),
         render: (_, dom) => {
@@ -94,7 +96,7 @@ const Layout = () => {
                   {
                     key: 'logout',
                     icon: <LogoutOutlined />,
-                    label: '退出登录',
+                    label: '登出',
                     onClick: signOut,
                   },
                 ],

@@ -30,7 +30,7 @@ export const useSignIn = () => {
       setUserLoginState(values);
 
       message.destroy();
-      message.error('登录失败，请重试！');
+      message.error('登入失敗請重新嘗試！');
 
       console.error(error);
     }
