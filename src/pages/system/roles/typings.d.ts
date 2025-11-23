@@ -7,7 +7,7 @@ export type RoleItem = {
 
 export type ResRoles = API.ResPagination<AdminItem>;
 
-export type QsRoles = API.Qs;
+export type QsRoles = API.QuePaging;
 
 export type AuthItem = {
   key?: string; // 权限 KEY

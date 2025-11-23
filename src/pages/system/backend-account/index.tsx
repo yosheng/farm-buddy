@@ -1,35 +1,28 @@
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable, PageContainer } from '@ant-design/pro-components';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
 import DelLinkBtn from '@/components/DelLinkBtn';
 
-import { fetchSysAdmin, fetchRolesEnum, delAdmin } from './service';
-import type { AdminItem } from './typings';
+import { delAdmin, fetchBackendAccount } from './service';
+import type { BackendAccountItem } from './typings';
 
-import MutateAdmin from './MutateAdmin';
 import type { MutateType } from './MutateAdmin';
+import MutateAdmin from './MutateAdmin';
 
-export default function Admin() {
+export default function BackendAccount() {
   const actionRef = useRef<ActionType>();
   const mutateRef = useRef<MutateType>();
 
-  const { data: roles } = useQuery({
-    queryKey: ['roles-enum'],
-    queryFn: fetchRolesEnum,
-  });
+  // const { data: roles } = useQuery({
+  //   queryKey: ['roles-enum'],
+  //   queryFn: fetchRolesEnum,
+  // });
 
-  const columns: ProColumns<AdminItem>[] = [
+  const columns: ProColumns<BackendAccountItem>[] = [
     { title: '管理员名称', dataIndex: 'name' },
-    {
-      title: '角色名称',
-      dataIndex: 'roleId',
-      valueType: 'select',
-      fieldProps: { options: roles },
-    },
     {
       title: '是否可用',
       dataIndex: 'enable',
@@ -61,10 +54,10 @@ export default function Admin() {
       render: (_, record) =>
         [
           <a key="edit" onClick={() => mutateRef.current?.open(record)}>
-            编辑
+            編輯
           </a>,
         ].concat(
-          record.roleId !== 'root'
+          record.username !== 'admin'
             ? [
                 <DelLinkBtn
                   key="del"
@@ -80,15 +73,15 @@ export default function Admin() {
 
   return (
     <PageContainer>
-      <ProTable<AdminItem>
+      <ProTable<BackendAccountItem>
         columns={columns}
         actionRef={actionRef}
         cardBordered
         request={async (params, sort) => {
-          const data = await fetchSysAdmin({ ...params, sort });
+          const data = await fetchBackendAccount({ ...params, sort });
 
           return {
-            data: data?.list || [],
+            data: data?.items || [],
             success: !!data,
             total: data?.total || 0,
           };
@@ -97,7 +90,7 @@ export default function Admin() {
         search={{ labelWidth: 'auto' }}
         options={{ setting: { listsHeight: 400 } }}
         dateFormatter="string"
-        headerTitle="管理员列表"
+        headerTitle="後台帳號列表"
         toolBarRender={() => [
           <Button
             key="button"
@@ -105,11 +98,12 @@ export default function Admin() {
             onClick={() => mutateRef.current?.open()}
             type="primary"
           >
-            新建
+            新增
           </Button>,
         ]}
       />
-      <MutateAdmin opts={{ roles }} ref={mutateRef} finish={() => actionRef.current?.reload()} />
+      {/*TODO: opts={{ roles }}*/}
+      <MutateAdmin opts={{}} ref={mutateRef} finish={() => actionRef.current?.reload()} />
     </PageContainer>
   );
 }

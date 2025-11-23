@@ -20,13 +20,13 @@ declare namespace API {
         phone?: string;
     };
 
-    // common query params
-    type Qs = {
+    // 分頁篩選參數
+    type QuePaging = {
         current?: number; pageSize?: number; sort?: Record<string, 'ascend' | 'descend' | null>
     }
 
-    // 分页数据类型
-    type ResPagination<T> = { list: T[], current: number, pageSize: number, total: number }
+    // 分頁資料結果
+    type ResPagination<T> = { items: T[], current: number, pageSize: number, total: number }
 
     type EnumItem = { label: string, value: string | number, [propName: string]: string | number }
 

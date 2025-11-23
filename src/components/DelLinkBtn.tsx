@@ -3,7 +3,7 @@ import { Spin, message, Typography, Button, Tooltip } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 
 type DelLinkBtnProps = {
-  id?: string;
+  id?: number;
   fn: (params?: any) => Promise<any>;
   text?: string;
   finish?: () => void;

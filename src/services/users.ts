@@ -16,7 +16,7 @@ export async function queryUserInfo() {
 
 /** 获取用户授权 */
 export async function queryUserAuth() {
-  // return request<string[]>('/api/sys/admin/auth');
+  // return request<string[]>('/api/sys/backend-account/auth');
 
   return Promise.resolve([
     'WELCOME',

@@ -31,7 +31,6 @@ const routes: Route[] = [
         path: '/dashboard',
         name: 'Dashboard',
         icon: 'i-menu:dashboard',
-
         children: [
           { path: '/dashboard', redirect: '/dashboard/page-1' },
           {
@@ -47,10 +46,10 @@ const routes: Route[] = [
       },
       {
         path: '/system',
-        name: '系统管理',
-        icon: 'i-menu:crow',
+        name: '系統管理',
+        icon: 'i-menu:dashboard',
         children: [
-          { path: '/system/admin', name: '管理员', element: './system/admin' },
+          { path: '/system/backend-account', name: '後台帳號', element: './system/backend-account' },
           { path: 'roles', name: '角色管理', element: './system/roles' },
           { path: 'menu', name: '菜单管理', element: './system/menu' },
           { path: 'logs', name: '操作日志', element: './system/Logs' },

@@ -1,10 +1,10 @@
-import { Modal, Form, Input, Radio, Select, Alert, message } from 'antd';
+import { Modal, Form, Input, Radio, Alert, message } from 'antd';
 import { useState, useImperativeHandle, forwardRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { mutateAdmin } from './service';
-import type { AdminItem } from './typings';
+import type { BackendAccountItem } from './typings';
 
-type RefMethods = { open: (val?: AdminItem) => void };
+type RefMethods = { open: (val?: BackendAccountItem) => void };
 export type MutateType = RefMethods | undefined;
 
 type MutateProps = {
@@ -13,12 +13,12 @@ type MutateProps = {
 };
 
 const formItemLayout = { labelCol: { span: 5 }, wrapperCol: { span: 19 } };
-
-const MutateAdmin = forwardRef<MutateType, MutateProps>(({ opts, finish }, ref) => {
+// { opts, finish } 改 { finish }
+const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
   const [form] = Form.useForm();
   const pwd = Form.useWatch('password', form);
   // 设置一个值用于编辑或新增的表单初始数据，并用于控制窗口显示与隐藏
-  const [initVal, setInInitVal] = useState<AdminItem>();
+  const [initVal, setInInitVal] = useState<BackendAccountItem>();
 
   const isAdd = !initVal?.id;
   const titlePrefix = initVal?.id ? '更新' : '新增';
@@ -41,7 +41,7 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ opts, finish }, ref) 
     open: (val) => {
       form.resetFields();
       if (val) form.setFieldsValue(val);
-      setInInitVal(val || { enable: true });
+      setInInitVal(val || ({ isActive: true } as BackendAccountItem));
     },
   }));
 
@@ -61,7 +61,7 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ opts, finish }, ref) 
       onCancel={onCancel}
       confirmLoading={isPending}
     >
-      <Form form={form} {...formItemLayout} initialValues={{ enable: false }}>
+      <Form form={form} {...formItemLayout} initialValues={{ isActive: false }}>
         <Form.Item
           label="管理员名称"
           name="name"
@@ -70,14 +70,14 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ opts, finish }, ref) 
           <Input placeholder="管理员名称" />
         </Form.Item>
 
-        <Form.Item
-          label="角色"
-          name="roleId"
-          rules={[{ required: true, message: '请输入管理员名称！' }]}
-        >
-          <Select options={opts.roles} placeholder="请选择角色" />
-        </Form.Item>
-        <Form.Item label="是否可用" name="enable">
+        {/*<Form.Item*/}
+        {/*  label="角色"*/}
+        {/*  name="roleId"*/}
+        {/*  rules={[{ required: true, message: '请输入管理员名称！' }]}*/}
+        {/*>*/}
+        {/*  <Select options={opts.roles} placeholder="请选择角色" />*/}
+        {/*</Form.Item>*/}
+        <Form.Item label="是否可用" name="isActive">
           <Radio.Group
             options={[
               { label: '是', value: true },

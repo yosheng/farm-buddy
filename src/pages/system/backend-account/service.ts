@@ -1,8 +1,8 @@
 import request from '@/utils/request';
-import type { ResAdmin, QsAdmin, AdminItem } from './typings';
+import type { ResBackendAccount, QsAdmin, BackendAccountItem } from './typings';
 
-export async function fetchSysAdmin(params?: QsAdmin) {
-  return request<ResAdmin>('/api/sys/admin/page', { params });
+export async function fetchBackendAccount(params?: QsAdmin) {
+  return request<ResBackendAccount>('/api/BackendAccount', { params });
 }
 
 export async function fetchRolesEnum() {
@@ -10,7 +10,7 @@ export async function fetchRolesEnum() {
 }
 
 /** 新增编辑管理员 */
-export async function mutateAdmin(data: AdminItem) {
+export async function mutateAdmin(data: BackendAccountItem) {
   return request<API.ResEnum>('/api/sys/admin/mutate', {
     method: 'post',
     data,
