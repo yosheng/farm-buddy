@@ -40,7 +40,7 @@ const routes: Route[] = [
             access: 'canAccess',
           },
           { path: 'page-2', name: 'Page 2', element: './dashboard/page-2', access: 'canAccess' },
-          { path: 'page-3', name: 'Page 3', element: './dashboard/page-3' },
+          { path: 'chat-message', name: '聊天消息', element: './dashboard/chat-message' },
           { path: '*', element: './exception/404' },
         ],
       },
@@ -49,7 +49,7 @@ const routes: Route[] = [
         name: '系統管理',
         icon: 'i-menu:dashboard',
         children: [
-          { path: '/system/backend-account', name: '後台帳號', element: './system/backend-account' },
+          { path: 'backend-account', name: '後台帳號', element: './system/backend-account' },
           { path: 'roles', name: '角色管理', element: './system/roles' },
           { path: 'menu', name: '菜单管理', element: './system/menu' },
           { path: 'logs', name: '操作日志', element: './system/Logs' },
