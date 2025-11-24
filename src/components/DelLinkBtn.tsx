@@ -10,15 +10,15 @@ type DelLinkBtnProps = {
   icon?: boolean;
 };
 
-const DelLinkBtn = ({ id, fn, finish, text = '删除', icon }: DelLinkBtnProps) => {
+const DelLinkBtn = ({ id, fn, finish, text = '刪除', icon }: DelLinkBtnProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: fn,
     onSuccess: () => {
-      message.success('删除成功！');
+      message.success('刪除成功！');
       finish?.();
     },
     onError: () => {
-      message.error('删除失败!');
+      message.error('刪除失敗!');
     },
   });
 

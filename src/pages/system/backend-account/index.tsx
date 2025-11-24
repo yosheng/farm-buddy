@@ -22,8 +22,16 @@ export default function BackendAccount() {
   // });
 
   const columns: ProColumns<BackendAccountItem>[] = [
-    { title: '帳號', dataIndex: 'username' },
-    { title: '名稱', dataIndex: 'displayName' },
+    {
+      title: '帳號',
+      dataIndex: 'username',
+      fieldProps: { placeholder: '請輸入帳號' }
+    },
+    {
+      title: '名稱',
+      dataIndex: 'displayName',
+      fieldProps: { placeholder: '請輸入名稱' }
+    },
     {
       title: '是否可用',
       dataIndex: 'isActive',
@@ -91,10 +99,15 @@ export default function BackendAccount() {
           };
         }}
         rowKey="id"
-        search={{ labelWidth: 'auto' }}
+        search={{ labelWidth: 'auto', searchText: '查詢', resetText: '重置' }}
         options={{ setting: { listsHeight: 400 } }}
         dateFormatter="string"
         headerTitle="後台帳號列表"
+        pagination={{
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal:  (total, range) => `第 ${range[0]}-${range[1]} 條 / 共 ${total} 條`
+        }}
         toolBarRender={() => [
           <Button
             key="button"

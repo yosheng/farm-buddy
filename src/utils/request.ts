@@ -62,6 +62,9 @@ export default async function <T>(
 
   if (httpStatus && httpStatus >= 200 && httpStatus < 300) {
     const model = result.data;
+    // 如果沒有返回體（刪除操作），直接返回 undefined
+    if (!model) return undefined as T;
+
     if (model.code === 0) return model.data;
 
     // 後台請求錯誤處理

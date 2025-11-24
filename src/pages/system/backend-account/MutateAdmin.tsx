@@ -1,7 +1,7 @@
 import { Modal, Form, Input, Radio, Alert, message } from 'antd';
 import { useState, useImperativeHandle, forwardRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { mutateAdmin } from './service';
+import { createAdmin, updateAdmin } from './service';
 import type { BackendAccountItem } from './typings';
 
 type RefMethods = { open: (val?: BackendAccountItem) => void };
@@ -24,7 +24,15 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
   const titlePrefix = initVal?.id ? '更新' : '新增';
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: mutateAdmin,
+    mutationFn: async (data: any) => {
+      if (isAdd) {
+        return createAdmin(data);
+      } else {
+        // 修改時只發送需要的字段，不發送 username 和 id
+        const { username, id, confirmPwd, ...updateData } = data;
+        return updateAdmin(initVal?.id, updateData);
+      }
+    },
     onSuccess: () => {
       message.success(`${titlePrefix}成功！`);
 
@@ -107,12 +115,13 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
           label="密碼"
           name="password"
           rules={[
-            ...(isAdd || pwd ? [{ required: true, message: '請輸入密碼！' }] : []),
+            ...(isAdd ? [{ required: true, message: '請輸入密碼！' }] : []),
+            ...(pwd ? [{ required: true, message: '請輸入密碼！' }] : []),
             { pattern: /^.{6,18}$/, message: '請輸入6-18位的密碼！' },
           ]}
           hasFeedback
         >
-          <Input.Password placeholder="請輸入密碼" />
+          <Input.Password placeholder={isAdd ? '請輸入密碼' : '修改密碼請輸入，不修改則留空'} />
         </Form.Item>
 
         <Form.Item
@@ -121,7 +130,8 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
           dependencies={['password']}
           hasFeedback
           rules={[
-            ...(isAdd || pwd ? [{ required: true, message: '請再次輸入密碼！' }] : []),
+            ...(isAdd ? [{ required: true, message: '請再次輸入密碼！' }] : []),
+            ...(pwd ? [{ required: true, message: '請再次輸入密碼！' }] : []),
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
@@ -132,7 +142,7 @@ const MutateAdmin = forwardRef<MutateType, MutateProps>(({ finish }, ref) => {
             }),
           ]}
         >
-          <Input.Password placeholder="請再次輸入密碼" />
+          <Input.Password placeholder={isAdd ? '請再次輸入密碼' : '確定密碼'} />
         </Form.Item>
       </Form>
     </Modal>
