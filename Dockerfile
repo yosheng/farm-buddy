@@ -30,7 +30,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Set API target environment variable (can be overridden at runtime)
 ENV VITE_API_TARGET=http://api:3000
 
-EXPOSE 80
+EXPOSE 8080
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
