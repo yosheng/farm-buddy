@@ -22,13 +22,13 @@ FROM nginx:latest
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 # Copy built dist directory from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Set API target environment variable (can be overridden at runtime)
-ENV VITE_API_TARGET=http://api:3000
+ENV VITE_API_BASE_URL=http://api:3000
 
 EXPOSE 8080
 
