@@ -4,7 +4,7 @@ import { message, notification } from 'antd';
 import store from '@/utils/store';
 
 const instance = axios.create({
-  baseURL: import.meta.env.DEV ? '/api' : process.env.VITE_API_BASE_URL || 'http://localhost:5200',
+  baseURL: '',
   timeout: 10000,
 });
 
