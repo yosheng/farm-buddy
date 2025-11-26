@@ -4,9 +4,12 @@ import { useRef } from 'react';
 
 import { fetchChatMessage } from './service';
 import type { ChatMessageItem } from './typings';
+import type { ChatMessageModalType } from './ChatMessageModal';
+import ChatMessageModal from './ChatMessageModal';
 
 export default function ChatMessage() {
   const actionRef = useRef<ActionType>();
+  const messageModalRef = useRef<ChatMessageModalType>();
 
   const columns: ProColumns<ChatMessageItem>[] = [
     {
@@ -31,9 +34,13 @@ export default function ChatMessage() {
       title: '內容',
       dataIndex: 'content',
       search: false,
-      render: (text) => {
+      render: (text, record) => {
         const content = text as string;
-        return content?.length > 50 ? `${content.substring(0, 50)}...` : content;
+        return (
+          <a onClick={() => messageModalRef.current?.open(record)}>
+            {content?.length > 50 ? `${content.substring(0, 50)}...` : content}
+          </a>
+        );
       },
     },
     {
@@ -71,6 +78,7 @@ export default function ChatMessage() {
           showTotal: (total, range) => `第 ${range[0]}-${range[1]} 條 / 共 ${total} 條`,
         }}
       />
+      <ChatMessageModal ref={messageModalRef} />
     </PageContainer>
   );
 }
