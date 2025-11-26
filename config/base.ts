@@ -50,6 +50,7 @@ const routes: Route[] = [
         icon: 'i-menu:dashboard',
         children: [
           { path: 'backend-account', name: '後台帳號', element: './system/backend-account' },
+          { path: 'setting', name: '系統設定', element: './system/setting' },
           { path: 'roles', name: '角色管理', element: './system/roles' },
           { path: 'menu', name: '菜单管理', element: './system/menu' },
           { path: 'logs', name: '操作日志', element: './system/Logs' },
